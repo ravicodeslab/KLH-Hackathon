@@ -1,40 +1,62 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import logging
 
-# Import routers (Assuming they will be created next in the routers/ folder)
-# We use try-except here so the app doesn't crash if you haven't created the router files yet.
+# Import the routers we built
+# Note: Ensure these files exist in your app/routers/ folder
 try:
-    from app.routers import scan, report
-    routers_loaded = True
+    from app.routers import scan
 except ImportError:
-    routers_loaded = False
+    # This is a failsafe in case of pathing issues during development
+    import sys
+    import os
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from app.routers import scan
 
-# Initialize FastAPI App
+# 1. Initialize the FastAPI App
 app = FastAPI(
-    title="TracePoint API",
-    description="Automated OSINT & Privacy Sentinel for PS-64",
+    title="TracePoint OSINT Engine",
+    description="Backend API for real-time digital footprint scanning and PII detection",
     version="1.0.0"
 )
 
-# Configure CORS (Critical for connecting with React frontend)
+# 2. Configure CORS (The Bridge to Frontend)
+# This allows your React app (typically on port 3000) to talk to this API.
+# We include multiple local variations to be 100% safe.
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "localhost:3000",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins during local hackathon development
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["*"],  # Allows GET, POST, OPTIONS, etc.
+    allow_headers=["*"],  # Allows all headers (Content-Type, Authorization, etc.)
 )
 
-# Root Health Check Endpoint
-@app.get("/", tags=["Health"])
+# 3. Include Routers
+# This mounts your scanning logic under the /api/v1/scan prefix
+app.include_router(scan.router, prefix="/api/v1")
+
+# 4. Root Endpoint (Health Check)
+@app.get("/", tags=["Health Check"])
 async def root():
+    """
+    Basic endpoint to verify the server is running.
+    """
     return {
         "status": "online",
-        "message": "TracePoint Backend is running successfully.",
-        "routers_loaded": routers_loaded
+        "message": "TracePoint API is live and accepting requests",
+        "docs_url": "/docs"
     }
 
-# Include Routers (if they exist)
-if routers_loaded:
-    app.include_router(scan.router, prefix="/api/v1")
-    app.include_router(report.router, prefix="/api/v1")
+# Setup basic logging to see requests in the terminal
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+@app.on_event("startup")
+async def startup_event():
+    logger.info("🚀 TracePoint Engine started successfully!")
