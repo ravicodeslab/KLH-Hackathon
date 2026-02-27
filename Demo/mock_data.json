@@ -1,0 +1,43 @@
+{
+  "target": "rasheed@example.com",
+  "total_leaks": 4,
+  "risk_score": 84,
+  "exposures": [
+    {
+      "source": "GitHub",
+      "match": "rasheed-aiml",
+      "data_category": "Private Key",
+      "risk_level": "CRITICAL",
+      "description": "Hardcoded AWS_SECRET_KEY found in public repository 'tracepoint-backend'.",
+      "pii_found": ["Detected PRIVATE_KEY: XXXXXX_API_KEY"],
+      "url": "https://github.com/search?q=rasheed-aiml"
+    },
+    {
+      "source": "Pastebin",
+      "match": "mdrasheed@iar.ac.in",
+      "data_category": "Aadhaar ID",
+      "risk_level": "HIGH",
+      "description": "Entry found in 'Indian_Consumer_Dump_2024.txt'. Matches Aadhaar pattern.",
+      "pii_found": ["Detected AADHAAR_ID: XXXX-XXXX-9012"],
+      "url": "https://pastebin.com/search?q=mdrasheed"
+    },
+    {
+      "source": "Reddit",
+      "match": "u/rasheed_dev",
+      "data_category": "Location",
+      "risk_level": "MEDIUM",
+      "description": "User posts in r/Hyderabad and r/DeveloperIndia suggest specific geographic location.",
+      "pii_found": ["Detected LOCATION: 500081"],
+      "url": "https://reddit.com/user/rasheed_dev"
+    },
+    {
+      "source": "ForumDump",
+      "match": "+91 98XXX XXX01",
+      "data_category": "Credentials",
+      "risk_level": "CRITICAL",
+      "description": "Data breach from 'E-Commerce-Portal' containing hashed passwords and phone numbers.",
+      "pii_found": ["Detected PHONE_NUMBER: XXXXXX7801"],
+      "url": "https://haveibeenpwned.com"
+    }
+  ]
+}
