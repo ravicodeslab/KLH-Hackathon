@@ -1,0 +1,19 @@
+To: The Data Protection Officer, {company_name}
+Subject: Exercise of Right to Erasure under Section 12 of the DPDP Act, 2023
+
+Dear Sir/Madam,
+
+I am writing to you as a Data Principal under the Digital Personal Data Protection Act, 2023. It has come to my attention that my personal data, specifically {pii_type}, is currently exposed or being processed by your platform/records without my explicit consent, or has been part of a data breach.
+
+Under Section 12(3) of the DPDP Act, I hereby exercise my right to have my personal data erased. 
+
+Details of Exposure:
+- Data Category: {pii_type}
+- Reference/Masked Value: {masked_value}
+- Source of Discovery: ShadowTrace Intelligence Scan
+
+Please confirm the erasure of this data within the statutory timeline. Failure to comply may result in a complaint to the Data Protection Board of India.
+
+Regards,
+{user_name}
+Date: {current_date}
